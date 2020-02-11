@@ -1,18 +1,19 @@
 {
-    "name": "com.rastleks.utilities",
-    "version": "1.0.1",
-    "displayName": "Utilities by rastleks",
-    "description": "Usefool custom utilities",
+  "name": "com.rastleks.utilities",
+  "version": "1.0.1",
+  "displayName": "Utilities by rastleks",
+  "description": 
+    "Usefool custom utilities written  to save  time  in different projects. List of utilities: \n- GenericPool. Implementation of Pool pattern. \n- RenameWindow. Simple editor window to rename things.",
     "unity": "2019.3",
-    "unityRelease": "0f6",
-   "keywords": [
-      "util",
-      "utilities",
-      "pool"
-    ],
-    "author": {
-      "name": "rastleks",
-      "email": "hitomilras@gmail.com",
-      "url": "https://github.com/Hitomilras/Hitjones-unity-utilities"
-    }
+  "unityRelease": "0f6",
+  "keywords": [
+    "util",
+    "utilities",
+    "pool"
+  ],
+  "author": {
+    "name": "rastleks",
+    "email": "hitomilras@gmail.com",
+    "url": "https://github.com/Hitomilras/Hitjones-unity-utilities"
   }
+}
