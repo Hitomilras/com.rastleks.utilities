@@ -1,7 +1,7 @@
 {
     "name": "com.rastleks.utilities",
-    "version": "0.0.1",
-    "displayName": "RUtilities",
+    "version": "1.0.0",
+    "displayName": "rastleks utils",
     "description": "Usefool custom utilities",
     "unity": "2019.3",
     "unityRelease": "0f6",
