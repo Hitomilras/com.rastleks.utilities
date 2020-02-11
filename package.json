@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "displayName": "Utilities by rastleks",
   "description": 
-    "Usefool custom utilities written  to save  time  in different projects. List of utilities: \n- GenericPool. Implementation of Pool pattern. \n- RenameWindow. Simple editor window to rename things.",
+    "Usefool custom utilities written  to save  time  in different projects.",
     "unity": "2019.3",
   "unityRelease": "0f6",
   "keywords": [
