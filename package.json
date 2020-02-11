@@ -1,0 +1,18 @@
+{
+    "name": "com.rastleks.utilities",
+    "version": "0.0.1",
+    "displayName": "RUtilities",
+    "description": "Usefool custom utilities",
+    "unity": "2019.3",
+    "unityRelease": "0f6",
+   "keywords": [
+      "util",
+      "utilities",
+      "pool"
+    ],
+    "author": {
+      "name": "rastleks",
+      "email": "hitomilras@gmail.com",
+      "url": "https://github.com/Hitomilras/Hitjones-unity-utilities"
+    }
+  }
