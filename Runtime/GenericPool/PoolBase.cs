@@ -23,7 +23,14 @@ public class PoolBase<T>
 
     private Queue<T> pool = new Queue<T>();
 
-    public PoolBase(int initSize, Func<T> createObjectDelegate, Action<T> resetObjectFunction, Action<T> popObjectAction = null)
+    /// <summary>
+    /// Pool constructor. Creates pool and spawn [initSize] objects.
+    /// </summary>
+    /// <param name="initSize">Initial size of pool. This amount of objects will be spawned during constructor function.</param>
+    /// <param name="createObjectDelegate">Function to create new objects.</param>
+    /// <param name="resetObjectFunction">Function to reset object after returning to pool</param>
+    /// <param name="popObjectAction">Function to call when some object pop from a pool</param>
+    public PoolBase(int initSize, Func<T> createObjectDelegate, Action<T> resetObjectFunction = null, Action<T> popObjectAction = null)
     {
         this.createObjectFunction = createObjectDelegate;
         this.resetObjectAction = resetObjectFunction;
