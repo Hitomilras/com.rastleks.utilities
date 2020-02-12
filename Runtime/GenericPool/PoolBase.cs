@@ -11,22 +11,23 @@ public class PoolBase<T>
     {
         get
         {
-            return m_Pool.Count;
+            return pool.Count;
         }
     }
 
-    private Func<T> m_CreateObjectFunction;
+    private Func<T> createObjectFunction;
 
-    private Action<T> m_ResetObjectFunction;
+    private Action<T> resetObjectAction;
 
-    private Queue<T> m_Pool = new Queue<T>();
+    private Action<T> popObjectAction;
 
-    private T m_TempPoolObject;
+    private Queue<T> pool = new Queue<T>();
 
-    public PoolBase(int initSize, Func<T> createObjectDelegate, Action<T> resetObjectFunction)
+    public PoolBase(int initSize, Func<T> createObjectDelegate, Action<T> resetObjectFunction, Action<T> popObjectAction = null)
     {
-        m_CreateObjectFunction = createObjectDelegate;
-        m_ResetObjectFunction = resetObjectFunction;
+        this.createObjectFunction = createObjectDelegate;
+        this.resetObjectAction = resetObjectFunction;
+        this.popObjectAction = popObjectAction;
 
         for (int i = 0; i < initSize; i++)
             IncreasePool();
@@ -34,10 +35,14 @@ public class PoolBase<T>
 
     public T Pop()
     {
-        if (m_Pool.Count == 0)
+        if (pool.Count == 0)
             IncreasePool();
 
-        return m_Pool.Dequeue();
+        T result = pool.Dequeue();
+
+        popObjectAction?.Invoke(result);
+
+        return result;
     }
 
     public void Push(T obj)
@@ -48,16 +53,15 @@ public class PoolBase<T>
             throw new System.ArgumentNullException();
         }
 
-        if (m_ResetObjectFunction != null)
-            m_ResetObjectFunction(obj);
+        resetObjectAction?.Invoke(obj);
 
-        m_Pool.Enqueue(obj);
+        pool.Enqueue(obj);
     }
 
     protected virtual T IncreasePool()
     {
-        var result = m_CreateObjectFunction();
-        m_Pool.Enqueue(result);
+        var result = createObjectFunction();
+        pool.Enqueue(result);
 
         return result;
     }
