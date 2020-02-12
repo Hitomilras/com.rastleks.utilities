@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
-public class PoolReleaseHandler<T> : MonoBehaviour
+public class PoolReleaseHandler : MonoBehaviour
 {
 
     private UnityEvent OnRelease = new UnityEvent();
