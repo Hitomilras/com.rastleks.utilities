@@ -12,4 +12,9 @@ public class PoolReleaseHandler<T> : MonoBehaviour
     {
         OnRelease.AddListener(onReleaseAction);
     }
+
+    public void Release()
+    {
+        OnRelease.Invoke();
+    }
 }
