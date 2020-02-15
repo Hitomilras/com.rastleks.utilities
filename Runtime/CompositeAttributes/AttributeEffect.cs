@@ -10,11 +10,6 @@ public class AttributeEffect : AttributeBase
     [SerializeField]
     protected float effectMultiplyer;
 
-    public AttributeEffect()
-    {
-        name = "Default Effect";
-    }
-
     public AttributeEffect(string name, float constantValue = 0, float constantMultiplyer = 0) : base(name, constantValue)
     {
         effectMultiplyer = constantMultiplyer;

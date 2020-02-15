@@ -21,11 +21,6 @@ public class Attribute : AttributeBase
 
     public event System.Action OnRecalculated;
 
-    public Attribute()
-    {
-        name = "Default name";
-    }
-
     public Attribute(string name, float initialValue = 0) : base(name, initialValue)
     {
         attrValue = AttrBaseValue;

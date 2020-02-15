@@ -22,10 +22,6 @@ public abstract class AttributeBase : ISerializationCallbackReceiver
     [SerializeField]
     protected float attrBaseValue;
 
-    public AttributeBase()
-    {
-        name = "Default name";
-    }
 
     public AttributeBase(string name, float initialValue = 0)
     {
@@ -62,12 +58,18 @@ public abstract class AttributeBase : ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
 #if UNITY_EDITOR
-        nameHash = AttrName.GetHashCode();
+        if (!string.IsNullOrEmpty(AttrName))
+            nameHash = AttrName.GetHashCode();
+        else
+        {
+            name = "No name";
+            nameHash = AttrName.GetHashCode();
+        }
 #endif
     }
 
     public void OnAfterDeserialize()
     {
-        
+
     }
 }

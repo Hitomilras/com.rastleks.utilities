@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Runtime.Serialization;
+using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor;
@@ -46,6 +47,8 @@ public class AttributesContainerDrawer : PropertyDrawer
 
             list.onAddDropdownCallback = AddDropdown;
 
+            //list.onAddCallback += AddCallback;
+
             list.onRemoveCallback = Remove;
         }
 
@@ -55,6 +58,11 @@ public class AttributesContainerDrawer : PropertyDrawer
     public void DrawHeader(Rect rect)
     {
         EditorGUI.LabelField(rect, containerProperty.displayName);
+    }
+
+    private void AddCallback(ReorderableList l)
+    {
+
     }
 
     private void OnSelect(ReorderableList l)
@@ -110,11 +118,14 @@ public class AttributesContainerDrawer : PropertyDrawer
             var childrens = GetVisibleChildren(attributesListProperty.GetArrayElementAtIndex(index));
 
             foreach (var ch in childrens)
+            {
                 result += EditorGUIUtility.singleLineHeight;
+                result += 2;
+            }
         }
         else
         {
-            result += EditorGUIUtility.singleLineHeight;
+            result += EditorGUIUtility.singleLineHeight + 2f;
         }
 
         return result;
@@ -158,7 +169,7 @@ public class AttributesContainerDrawer : PropertyDrawer
         var types = AttributesManager.Instance.AttributesTypes;
 
         foreach (var tp in types)
-            menu.AddItem(new GUIContent(tp.Name), false, OnAddAtributeTypeSelected, System.Activator.CreateInstance(tp));
+            menu.AddItem(new GUIContent(tp.Name), false, OnAddAtributeTypeSelected, FormatterServices.GetSafeUninitializedObject(tp));
 
         menu.ShowAsContext();
     }
