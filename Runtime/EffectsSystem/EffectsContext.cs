@@ -28,7 +28,7 @@ public class EffectsContextElement
 
     public void Set(object obj)
     {
-        if (obj != null && (obj.GetType() == elementType || obj.GetType().IsSubclassOf(elementType)))
+        if (obj != null && (obj.GetType() == elementType || obj.GetType().IsAssignableFrom(elementType)))
             elementReference = obj;
         else
             throw new System.Exception("Invalid object type");

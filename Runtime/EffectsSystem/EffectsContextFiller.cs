@@ -12,7 +12,7 @@ public class EffectsContextFiller
     {
         foreach (var contextElement in target.Value)
         {
-            var fillActionRule = fillRules.FirstOrDefault(p => p.FillTargetType == contextElement.elementType);
+            var fillActionRule = fillRules.FirstOrDefault(p => p.FillTargetType.IsAssignableFrom(contextElement.elementType));
 
             if (fillActionRule != null)
                 contextElement.Set(fillActionRule.GetObjectToFillFunc.Invoke());
