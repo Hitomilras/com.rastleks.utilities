@@ -5,7 +5,7 @@ using UnityEngine;
 public class EffectsContext
 {
 
-    public List<EffectsContextElement> Value;
+    public List<EffectsContextElement> Value = new List<EffectsContextElement>();
 
 }
 
