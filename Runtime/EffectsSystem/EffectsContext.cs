@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class EffectsContext
 {
 
-    public List<EffectsContextElement> Value = new List<EffectsContextElement>();
+    public EffectsContext(IList<EffectsContextElement> context)
+    {
+        Value = new ReadOnlyCollection<EffectsContextElement>(context);
+    }
+
+    public ReadOnlyCollection<EffectsContextElement> Value;
 
 }
 
