@@ -11,15 +11,15 @@ public abstract class EventEffectBase : ScriptableObject
 
     public string EffectName => effectName;
 
-    public EffectsContext Context { get; private set; } = new EffectsContext();
+    public EffectsContext Context { get; private set; }
 
-    public abstract void GenerateContextScheme();
+    public abstract EffectsContext GenerateContextScheme();
 
     public abstract void ApplyToContext();
 
     public EventEffectBase()
     {
-        GenerateContextScheme();
+        Context = GenerateContextScheme();
     }
 
 }
