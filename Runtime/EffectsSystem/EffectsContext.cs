@@ -4,14 +4,33 @@ using UnityEngine;
 
 public class EffectsContext
 {
-    /// <summary>
-    /// Key for description, value for  type
-    /// </summary>
-    public Dictionary<string, System.Type> ContextScheme;
 
-    /// <summary>
-    /// Given context
-    /// </summary>
-    public List<object> Value;
+    public List<EffectsContextElement> Value;
 
+}
+
+public class EffectsContextElement
+{
+
+    public string name;
+
+    private object elementReference;
+
+    public System.Type elementType;
+
+    public T Get<T>()
+    {
+        if (elementReference != null && elementReference is T)
+            return (T)elementReference;
+        else
+            throw new System.Exception("Invalid object  reference or  null");
+    }
+
+    public void Set(object obj)
+    {
+        if (obj != null && (obj.GetType() == elementType || obj.GetType().IsSubclassOf(elementType)))
+            elementReference = obj;
+        else
+            throw new System.Exception("Invalid object type");
+    }
 }

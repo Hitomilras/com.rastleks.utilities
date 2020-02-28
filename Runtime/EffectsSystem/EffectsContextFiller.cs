@@ -10,14 +10,12 @@ public class EffectsContextFiller
 
     public void FillContext(EffectsContext target)
     {
-        foreach (var contextElement in target.ContextScheme)
+        foreach (var contextElement in target.Value)
         {
-            var fillActionRule = fillRules.FirstOrDefault(p => p.FillTargetType == contextElement.Value);
+            var fillActionRule = fillRules.FirstOrDefault(p => p.FillTargetType == contextElement.elementType);
 
             if (fillActionRule != null)
-                target.Value.Add(fillActionRule.GetObjectToFillFunc.Invoke());
-            else
-                target.Value.Add(null);
+                contextElement.Set(fillActionRule.GetObjectToFillFunc.Invoke());
         }
     }
 
