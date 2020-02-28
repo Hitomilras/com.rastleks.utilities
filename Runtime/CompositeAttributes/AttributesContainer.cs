@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class AttributesContainer
+public class AttributesContainer : IAttributeContainer
 {
 
     [SerializeReference]
@@ -24,14 +24,27 @@ public class AttributesContainer
         attributes.RemoveAt(index);
     }
 
-    public AttributeBase GetAttrByName(string name)
+    public Attribute GetAttrByName(string name)
     {
         int nameHash = name.GetHashCode();
 
         foreach (var attr in attributes)
             if (attr.AttrHash == nameHash)
-                return attr;
+                return (Attribute)attr;
 
         return null;
+    }
+
+    public bool ApplyEffectToAttributeWithName(string name, AttributeEffect effect)
+    {
+        var attr = GetAttrByName(name);
+
+        if (attr != null)
+        {
+            attr.Add(effect);
+            return true;
+        }
+        else
+            return false;
     }
 }

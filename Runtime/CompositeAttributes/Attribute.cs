@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class Attribute : AttributeBase
+public class Attribute : AttributeBase, IEffectsContainer
 {
 
     public float AttrValue { get { return Calculate(); } }
@@ -58,5 +58,16 @@ public class Attribute : AttributeBase
     {
         childern.Add(attr);
         isDirty = true;
+    }
+
+    public AttributeEffect GetEffectByName(string name)
+    {
+        int nameHash = name.GetHashCode();
+
+        foreach (var effect in childern)
+            if (effect.AttrHash == nameHash)
+                return effect;
+
+        return null;
     }
 }
