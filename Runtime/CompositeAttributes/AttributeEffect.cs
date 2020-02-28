@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttributeEffect : AttributeBase
+namespace rastleks.utilities.Attributes
 {
 
-    public float EffectMultiplyer => effectMultiplyer;
-
-    [SerializeField]
-    protected float effectMultiplyer;
-
-    public AttributeEffect(string name, float constantValue = 0, float constantMultiplyer = 0) : base(name, constantValue)
+    public class AttributeEffect : AttributeBase
     {
-        effectMultiplyer = constantMultiplyer;
+
+        public float EffectMultiplyer => effectMultiplyer;
+
+        [SerializeField]
+        protected float effectMultiplyer;
+
+        public AttributeEffect(string name, float constantValue = 0, float constantMultiplyer = 0) : base(name, constantValue)
+        {
+            effectMultiplyer = constantMultiplyer;
+        }
+
     }
 
 }

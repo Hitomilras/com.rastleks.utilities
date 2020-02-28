@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEffectsContainer 
+namespace rastleks.utilities.Attributes
 {
-    AttributeEffect GetEffectByName(string name);
+
+    public interface IEffectsContainer
+    {
+        AttributeEffect GetEffectByName(string name);
+    }
+
 }

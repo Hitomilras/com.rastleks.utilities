@@ -4,182 +4,187 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(AttributesContainer))]
-public class AttributesContainerDrawer : PropertyDrawer
+namespace rastleks.utilities.Attributes
 {
 
-    ReorderableList list;
-
-    SerializedProperty containerProperty;
-
-    SerializedProperty attributesListProperty;
-
-    SerializedObject target;
-
-    private int selectedElementIndex = -1;
-
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    [CustomPropertyDrawer(typeof(AttributesContainer))]
+    public class AttributesContainerDrawer : PropertyDrawer
     {
-        if (list == null)
-            return EditorGUIUtility.singleLineHeight;
 
-        return list.GetHeight();
-    }
+        ReorderableList list;
 
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        target = property.serializedObject;
+        SerializedProperty containerProperty;
 
-        if (list == null)
+        SerializedProperty attributesListProperty;
+
+        SerializedObject target;
+
+        private int selectedElementIndex = -1;
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            containerProperty = property;
-            attributesListProperty = property.FindPropertyRelative("attributes");
+            if (list == null)
+                return EditorGUIUtility.singleLineHeight;
 
-            list = new ReorderableList(property.serializedObject, attributesListProperty, false, true, true, true);
-
-            list.onSelectCallback = OnSelect;
-
-            list.drawHeaderCallback = DrawHeader;
-
-            list.drawElementCallback = DrawElementCallback;
-
-            list.elementHeightCallback = ElementHeightCallback;
-
-            list.onAddDropdownCallback = AddDropdown;
-
-            //list.onAddCallback += AddCallback;
-
-            list.onRemoveCallback = Remove;
+            return list.GetHeight();
         }
 
-        list.DoList(position);
-    }
-
-    public void DrawHeader(Rect rect)
-    {
-        EditorGUI.LabelField(rect, containerProperty.displayName);
-    }
-
-    private void AddCallback(ReorderableList l)
-    {
-
-    }
-
-    private void OnSelect(ReorderableList l)
-    {
-        selectedElementIndex = l.index;
-    }
-
-    private void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
-    {
-        var element = list.serializedProperty.GetArrayElementAtIndex(index);
-
-        if (index == selectedElementIndex)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            rect.y += 2;
+            target = property.serializedObject;
 
-            var childrens = GetVisibleChildren(element);
-
-            var elementFullTypeName = element.managedReferenceFullTypename.Split(' ');
-
-            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
-                               new GUIContent(element.FindPropertyRelative("name").stringValue + " (" + elementFullTypeName[elementFullTypeName.Length - 1] + ")"));
-
-            rect.y += EditorGUIUtility.singleLineHeight;
-
-            foreach (var ch in childrens)
+            if (list == null)
             {
-                EditorGUI.PropertyField(
-                    new Rect(rect.x, rect.y, rect.width,
-                    EditorGUIUtility.singleLineHeight),
-                    ch, true);
+                containerProperty = property;
+                attributesListProperty = property.FindPropertyRelative("attributes");
 
-                rect.y += EditorGUIUtility.singleLineHeight + 2;
+                list = new ReorderableList(property.serializedObject, attributesListProperty, false, true, true, true);
+
+                list.onSelectCallback = OnSelect;
+
+                list.drawHeaderCallback = DrawHeader;
+
+                list.drawElementCallback = DrawElementCallback;
+
+                list.elementHeightCallback = ElementHeightCallback;
+
+                list.onAddDropdownCallback = AddDropdown;
+
+                //list.onAddCallback += AddCallback;
+
+                list.onRemoveCallback = Remove;
+            }
+
+            list.DoList(position);
+        }
+
+        public void DrawHeader(Rect rect)
+        {
+            EditorGUI.LabelField(rect, containerProperty.displayName);
+        }
+
+        private void AddCallback(ReorderableList l)
+        {
+
+        }
+
+        private void OnSelect(ReorderableList l)
+        {
+            selectedElementIndex = l.index;
+        }
+
+        private void DrawElementCallback(Rect rect, int index, bool isactive, bool isfocused)
+        {
+            var element = list.serializedProperty.GetArrayElementAtIndex(index);
+
+            if (index == selectedElementIndex)
+            {
+                rect.y += 2;
+
+                var childrens = GetVisibleChildren(element);
+
+                var elementFullTypeName = element.managedReferenceFullTypename.Split(' ');
+
+                EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+                                   new GUIContent(element.FindPropertyRelative("name").stringValue + " (" + elementFullTypeName[elementFullTypeName.Length - 1] + ")"));
+
+                rect.y += EditorGUIUtility.singleLineHeight;
+
+                foreach (var ch in childrens)
+                {
+                    EditorGUI.PropertyField(
+                        new Rect(rect.x, rect.y, rect.width,
+                        EditorGUIUtility.singleLineHeight),
+                        ch, true);
+
+                    rect.y += EditorGUIUtility.singleLineHeight + 2;
+                }
+            }
+            else
+            {
+                rect.y += 2;
+
+                EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+                                       new GUIContent(element.FindPropertyRelative("name").stringValue));
             }
         }
-        else
+
+        private float ElementHeightCallback(int index)
         {
-            rect.y += 2;
+            float result = 0;
 
-            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
-                                   new GUIContent(element.FindPropertyRelative("name").stringValue));
-        }
-    }
-
-    private float ElementHeightCallback(int index)
-    {
-        float result = 0;
-
-        if (index == selectedElementIndex)
-        {
-            result += 4;
-            result += EditorGUIUtility.singleLineHeight;
-
-            var childrens = GetVisibleChildren(attributesListProperty.GetArrayElementAtIndex(index));
-
-            foreach (var ch in childrens)
+            if (index == selectedElementIndex)
             {
+                result += 4;
                 result += EditorGUIUtility.singleLineHeight;
-                result += 2;
+
+                var childrens = GetVisibleChildren(attributesListProperty.GetArrayElementAtIndex(index));
+
+                foreach (var ch in childrens)
+                {
+                    result += EditorGUIUtility.singleLineHeight;
+                    result += 2;
+                }
             }
-        }
-        else
-        {
-            result += EditorGUIUtility.singleLineHeight + 2f;
-        }
-
-        return result;
-    }
-
-    public IEnumerable<SerializedProperty> GetVisibleChildren(SerializedProperty serializedProperty)
-    {
-        SerializedProperty currentProperty = serializedProperty.Copy();
-        SerializedProperty nextSiblingProperty = serializedProperty.Copy();
-
-        {
-            nextSiblingProperty.NextVisible(false);
-        }
-
-        if (currentProperty.NextVisible(true))
-        {
-            do
+            else
             {
-                if (SerializedProperty.EqualContents(currentProperty, nextSiblingProperty))
-                    break;
-
-                yield return currentProperty;
+                result += EditorGUIUtility.singleLineHeight + 2f;
             }
-            while (currentProperty.NextVisible(false));
+
+            return result;
         }
-    }
 
-    private void Remove(ReorderableList l)
-    {
-        var container = (AttributesContainer)fieldInfo.GetValue(target.targetObject);
-        container.RemoveAt(l.index);
+        public IEnumerable<SerializedProperty> GetVisibleChildren(SerializedProperty serializedProperty)
+        {
+            SerializedProperty currentProperty = serializedProperty.Copy();
+            SerializedProperty nextSiblingProperty = serializedProperty.Copy();
 
-        l.index--;
+            {
+                nextSiblingProperty.NextVisible(false);
+            }
 
-        EditorUtility.SetDirty(target.targetObject);
-    }
+            if (currentProperty.NextVisible(true))
+            {
+                do
+                {
+                    if (SerializedProperty.EqualContents(currentProperty, nextSiblingProperty))
+                        break;
 
-    private void AddDropdown(Rect buttonRect, ReorderableList l)
-    {
-        var menu = new GenericMenu();
-        var types = AttributesManager.Instance.AttributesTypes;
+                    yield return currentProperty;
+                }
+                while (currentProperty.NextVisible(false));
+            }
+        }
 
-        foreach (var tp in types)
-            menu.AddItem(new GUIContent(tp.Name), false, OnAddAtributeTypeSelected, FormatterServices.GetSafeUninitializedObject(tp));
+        private void Remove(ReorderableList l)
+        {
+            var container = (AttributesContainer)fieldInfo.GetValue(target.targetObject);
+            container.RemoveAt(l.index);
 
-        menu.ShowAsContext();
-    }
+            l.index--;
 
-    private void OnAddAtributeTypeSelected(object attr)
-    {
-        var container = (AttributesContainer)fieldInfo.GetValue(target.targetObject);
-        container.Add((AttributeBase)attr);
+            EditorUtility.SetDirty(target.targetObject);
+        }
 
-        EditorUtility.SetDirty(target.targetObject);
+        private void AddDropdown(Rect buttonRect, ReorderableList l)
+        {
+            var menu = new GenericMenu();
+            var types = AttributesManager.Instance.AttributesTypes;
+
+            foreach (var tp in types)
+                menu.AddItem(new GUIContent(tp.Name), false, OnAddAtributeTypeSelected, FormatterServices.GetSafeUninitializedObject(tp));
+
+            menu.ShowAsContext();
+        }
+
+        private void OnAddAtributeTypeSelected(object attr)
+        {
+            var container = (AttributesContainer)fieldInfo.GetValue(target.targetObject);
+            container.Add((AttributeBase)attr);
+
+            EditorUtility.SetDirty(target.targetObject);
+        }
+
     }
 
 }

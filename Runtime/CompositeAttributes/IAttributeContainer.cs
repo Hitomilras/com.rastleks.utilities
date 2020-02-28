@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IAttributeContainer
+namespace rastleks.utilities.Attributes
 {
 
-    Attribute GetAttrByName(string name);
+    public interface IAttributeContainer
+    {
 
-    bool ApplyEffectToAttributeWithName(string name, AttributeEffect effect);
+        Attribute GetAttrByName(string name);
+
+        bool ApplyEffectToAttributeWithName(string name, AttributeEffect effect);
+
+    }
 
 }

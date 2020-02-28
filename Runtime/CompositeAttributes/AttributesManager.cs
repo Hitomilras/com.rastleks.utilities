@@ -3,54 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public sealed class AttributesManager
+namespace rastleks.utilities.Attributes
 {
 
-    private static AttributesManager instance;
-
-    public static AttributesManager Instance
+    public sealed class AttributesManager
     {
-        get
+
+        private static AttributesManager instance;
+
+        public static AttributesManager Instance
         {
-            if (instance == null)
-                instance = new AttributesManager();
+            get
+            {
+                if (instance == null)
+                    instance = new AttributesManager();
 
-            return instance;
+                return instance;
+            }
         }
-    }
 
-    public readonly List<System.Type> AttributesTypes;
+        public readonly List<System.Type> AttributesTypes;
 
-    public AttributesManager()
-    {
-        AttributesTypes = new List<System.Type>();
-        ReloadTypes();
-    }
+        public AttributesManager()
+        {
+            AttributesTypes = new List<System.Type>();
+            ReloadTypes();
+        }
 
-    void ReloadTypes()
-    {
-        CleanTypes();
+        void ReloadTypes()
+        {
+            CleanTypes();
 
-        var types = System.AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(t => { return t.GetTypes(); })
-            .Where(p => p.IsSubclassOf(typeof(AttributeBase)) && !p.IsAbstract);
+            var types = System.AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(t => { return t.GetTypes(); })
+                .Where(p => p.IsSubclassOf(typeof(AttributeBase)) && !p.IsAbstract);
 
-        AttributesTypes.AddRange(types);
-    }
+            AttributesTypes.AddRange(types);
+        }
 
-    void CleanTypes()
-    {
-        AttributesTypes.Clear();
-    }
+        void CleanTypes()
+        {
+            AttributesTypes.Clear();
+        }
 
 #if UNITY_EDITOR
 
-    [UnityEditor.Callbacks.DidReloadScripts]
-    static void OnEditorReload()
-    {
-        Instance.ReloadTypes();
-    }
+        [UnityEditor.Callbacks.DidReloadScripts]
+        static void OnEditorReload()
+        {
+            Instance.ReloadTypes();
+        }
 
 #endif
+
+    }
 
 }
