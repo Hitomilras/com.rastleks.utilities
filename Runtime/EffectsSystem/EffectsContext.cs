@@ -12,6 +12,6 @@ public class EffectsContext
     /// <summary>
     /// Given context
     /// </summary>
-    public List<object> Context;
+    public List<object> Value;
 
 }

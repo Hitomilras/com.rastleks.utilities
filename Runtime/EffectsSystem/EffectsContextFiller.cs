@@ -15,9 +15,9 @@ public class EffectsContextFiller
             var fillActionRule = fillRules.FirstOrDefault(p => p.FillTargetType == contextElement.Value);
 
             if (fillActionRule != null)
-                target.Context.Add(fillActionRule.GetObjectToFillFunc.Invoke());
+                target.Value.Add(fillActionRule.GetObjectToFillFunc.Invoke());
             else
-                target.Context.Add(null);
+                target.Value.Add(null);
         }
     }
 
